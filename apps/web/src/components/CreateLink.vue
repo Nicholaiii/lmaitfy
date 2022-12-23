@@ -2,7 +2,7 @@
   <div>
     <form class="space-y-6">
       <div ref="input">
-        <AInput v-model="link" />
+        <AInput v-model="value" />
       </div>
       <div class="flex items-center justify-center space-x-4 w-full">
         <AButton>Create link</AButton>
@@ -13,10 +13,25 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import AInput from '@/components/AInput.vue'
 import AButton from '@/components/AButton.vue'
 
+const props = defineProps({
+  query: {
+    type: String,
+    required: true
+  }
+})
+
+const value = ref('')
+
+watch(
+  () => props.query,
+  (newVal) => {
+    value.value = newVal
+  }
+)
 const emits = defineEmits(['getPosition'])
 const input = ref<HTMLElement | null>(null)
 onMounted(() => {
@@ -24,7 +39,6 @@ onMounted(() => {
     emits('getPosition', input.value.getBoundingClientRect())
   }
 })
-const link = ref('')
 </script>
 
 <style scoped></style>

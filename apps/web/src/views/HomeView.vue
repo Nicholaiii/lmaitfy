@@ -4,8 +4,9 @@
       <header>
         <h2 class="text-6xl font-bold text-gray-100">LMAITFY</h2>
         <h1 class="text-xl text-gray-100">Let me AI that for you</h1>
+        {{ query }}
       </header>
-      <CreateLink @get-position="(pos) => (inputPosition = pos)" />
+      <CreateLink @get-position="(pos) => (inputPosition = pos)" :query="queryOutput" />
       <footer>
         <p class="text-gray-500">
           Created by
@@ -27,14 +28,17 @@
       </footer>
     </div>
   </div>
-  <AButton @click="moveCursor">Test move</AButton>
   <img ref="cursor" id="cursor" src="@/assets/cursor.svg" alt="" />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import CreateLink from '@/components/CreateLink.vue'
-import AButton from '@/components/AButton.vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const query = ref<string>(route.query.q as string)
+const queryOutput = ref<string>('')
 
 /* TODO: Add some head library
 useHead({
@@ -52,13 +56,12 @@ useHead({
 // animate the object to createlink ref slowly
 const cursor = ref<HTMLElement | null>(null)
 const inputPosition = ref<{ left: number; top: number }>({ left: 0, top: 0 })
-const canMoveCursor = ref<boolean>(false)
 
 const moveCursor = () => {
   if (cursor.value && inputPosition.value) {
     const { left, top } = cursor.value.getBoundingClientRect()
     const x = inputPosition.value.left - left + 12
-    const y = inputPosition.value.top - top
+    const y = inputPosition.value.top - top + 20
     cursor.value.animate(
       [
         { transform: 'translate(0, 0)' },
@@ -74,9 +77,14 @@ const moveCursor = () => {
     )
   }
 }
-onMounted(() => {
-  if (cursor.value && inputPosition.value) {
-    canMoveCursor.value = true
+onMounted(async () => {
+  if (query.value && cursor.value && inputPosition.value) {
+    moveCursor()
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+    for (let i = 0; i < query.value.length; i++) {
+      queryOutput.value += query.value[i]
+      await new Promise((resolve) => setTimeout(resolve, 100))
+    }
   }
 })
 </script>
