@@ -1,8 +1,16 @@
 import { Controller, accept } from '@curveball/controller'
 import { BadRequest } from '@curveball/http-errors/dist'
 import type { Context } from '@curveball/core'
-import { isNil } from 'ramda'
 import { setTimeout } from 'node:timers/promises'
+
+import { initialiseGpt } from './query'
+
+const isNil = (value: unknown): value is null | undefined => value === undefined || value === null
+const debug = (message: string): void => {
+  if (process.env['NODE_ENV'] === 'development') {
+    console.log(message)
+  }
+}
 
 type HashFn = (input: string) => string
 interface Cache {
@@ -11,17 +19,27 @@ interface Cache {
 }
 
 export class GptController extends Controller {
+  private api?: Awaited<ReturnType<typeof initialiseGpt>>
+
   constructor (
     private readonly hash: HashFn,
     private readonly cache: Cache
   ) {
     super()
+
+    initialiseGpt().then(api => {
+      debug('ChatGPT initialised')
+      this.api = api
+    }).catch(error => {
+      console.error(error)
+      process.exit(1)
+    })
   }
 
   @accept('application/json')
   async post (ctx: Context<{ query?: string }>): Promise<void> {
     const { query } = ctx.request.body
-    if (isNil(query)) throw new BadRequest('Field \'query\' is missing') // eslint-disable-line
+    if (isNil(query)) throw new BadRequest('Field \'query\' is missing')
     const hash = this.hash(query)
 
     ctx.response.type = 'application/json'
@@ -37,13 +55,11 @@ export class GptController extends Controller {
 
   async cachedQuery (hash: string, query: () => Promise<string>): Promise<string> {
     const match = this.cache.get(hash)
-    if (process.env['NODE_ENV'] === 'development') {
-      console.log(`Cache ${isNil(match) ? 'miss' : 'hit'} for ${hash.substring(0, 10)}`) // eslint-disable-line
-    }
+    debug(`Cache ${isNil(match) ? 'miss' : 'hit'} for ${hash.substring(0, 10)}`)
 
     const data = match ?? await query()
 
-    if (isNil(match)) this.cache.set(hash, data) // eslint-disable-line
+    if (isNil(match)) this.cache.set(hash, data)
 
     return data
   }
