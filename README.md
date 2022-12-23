@@ -1,35 +1,30 @@
-# Turborepo starter
+# lmaitfy
 
-This is an official npm starter turborepo.
+It does what it says on the tin.
 
 ## What's inside?
 
 This turborepo uses [npm](https://www.npmjs.com/) as a package manager. It includes the following packages/apps:
 
-### Apps and Packages
+### Apps
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+- `web`: a [Vue.js](https://vuejs.org/) app
+- `api`: a [Curveball](https://curveballjs.org/) api
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+All packages are using [TypeScript](https://www.typescriptlang.org/).
 
 ### Utilities
 
 This turborepo has some additional tools already setup for you:
 
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+- [ESLint](https://eslint.org/) for code linting with Standard
 
 ### Build
 
 To build all apps and packages, run the following command:
 
-```
-cd my-turborepo
+```sh
 npm run build
 ```
 
@@ -37,8 +32,7 @@ npm run build
 
 To develop all apps and packages, run the following command:
 
-```
-cd my-turborepo
+```sh
 npm run dev
 ```
 
@@ -48,8 +42,7 @@ Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo
 
 By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
 
-```
-cd my-turborepo
+```sh
 npx turbo login
 ```
 
@@ -57,7 +50,7 @@ This will authenticate the Turborepo CLI with your [Vercel account](https://verc
 
 Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
 
-```
+```sh
 npx turbo link
 ```
 
@@ -71,3 +64,7 @@ Learn more about the power of Turborepo:
 - [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
 - [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
 - [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+
+## About
+
+This project is made with 🤖💖 by @ngajhede and @nicholai
