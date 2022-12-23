@@ -38,12 +38,12 @@ export class GptController extends Controller {
   async cachedQuery (hash: string, query: () => Promise<string>): Promise<string> {
     const match = this.cache.get(hash)
     if (process.env['NODE_ENV'] === 'development') {
-      console.log(`Cache ${isNil(match) ? 'miss' : 'hit'} for ${hash.substring(0, 10)}`)
+      console.log(`Cache ${isNil(match) ? 'miss' : 'hit'} for ${hash.substring(0, 10)}`) // eslint-disable-line
     }
 
     const data = match ?? await query()
 
-    if (isNil(match)) this.cache.set(hash, data)
+    if (isNil(match)) this.cache.set(hash, data) // eslint-disable-line
 
     return data
   }
