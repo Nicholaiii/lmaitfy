@@ -27,13 +27,14 @@
       </footer>
     </div>
   </div>
-  <p @click="moveCursor">Test move</p>
-  <img ref="cursor" id="cursor" src="~/assets/cursor.svg" alt="" />
+  <AButton @click="moveCursor">Test move</AButton>
+  <img ref="cursor" id="cursor" src="@/assets/cursor.svg" alt="" />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import CreateLink from '@/components/CreateLink.vue'
+import AButton from '@/components/AButton.vue'
 
 /* TODO: Add some head library
 useHead({

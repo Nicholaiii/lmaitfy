@@ -2,17 +2,20 @@
   <div>
     <form class="space-y-6">
       <div ref="input">
-        <Input v-model="link" />
+        <AInput v-model="link" />
       </div>
       <div class="flex items-center justify-center space-x-4 w-full">
-        <Button>Create link</Button>
-        <Button>Try yourself</Button>
+        <AButton>Create link</AButton>
+        <AButton>Try yourself</AButton>
       </div>
     </form>
   </div>
 </template>
 
-<script setup lang="ts">import { onMounted, ref } from 'vue'
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import AInput from '@/components/AInput.vue'
+import AButton from '@/components/AButton.vue'
 
 const emits = defineEmits(['getPosition'])
 const input = ref<HTMLElement | null>(null)
