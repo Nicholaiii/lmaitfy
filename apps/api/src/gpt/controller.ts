@@ -1,7 +1,6 @@
 import { Controller, accept } from '@curveball/controller'
-import { BadRequest } from '@curveball/http-errors/dist'
+import { BadRequest, ServiceUnavailable } from '@curveball/http-errors/dist'
 import type { Context } from '@curveball/core'
-import { setTimeout } from 'node:timers/promises'
 
 import { initialiseGpt } from './query'
 
@@ -49,8 +48,9 @@ export class GptController extends Controller {
   }
 
   async queryGpt (query: string): Promise<string> {
-    await setTimeout(666) /* very expensive api request */
-    return 'Hello Gumse: ' + query
+    if (isNil(this.api)) throw new ServiceUnavailable('API not connected to ChatGPT', 5000)
+    const { response } = await this.api.sendMessage(query)
+    return response
   }
 
   async cachedQuery (hash: string, query: () => Promise<string>): Promise<string> {
