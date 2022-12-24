@@ -2,7 +2,7 @@ import { Controller, accept } from '@curveball/controller'
 import { BadRequest, ServiceUnavailable } from '@curveball/http-errors/dist'
 import type { Context } from '@curveball/core'
 
-import { initialiseGpt } from './query'
+import { initialiseGpt } from './query.js'
 
 const isNil = (value: unknown): value is null | undefined => value === undefined || value === null
 const debug = (message: string): void => {
