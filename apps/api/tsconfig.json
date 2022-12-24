@@ -3,17 +3,19 @@
   "display": "Node 18 + Strictest",
   "exclude": ["dist/*"],
   "compilerOptions": {
+    "outDir": "dist",
     "lib": [
       "es2022"
     ],
-    "module": "ES2022",
-    "target": "es2022",
+    "module": "CommonJS",
+    "target": "esnext",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "declaration": false,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
     "exactOptionalPropertyTypes": true,

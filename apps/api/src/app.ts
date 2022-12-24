@@ -3,7 +3,7 @@ import bodyParser from '@curveball/bodyparser'
 import router from '@curveball/router'
 import problemMw from '@curveball/problem'
 
-import { GptController } from './gpt/controller'
+import { GptController } from './gpt/controller.js'
 
 export function start (port: number, GptDeps: ConstructorParameters<typeof GptController>): void {
   const app = new Application()
