@@ -5,7 +5,8 @@
         <h2 class="text-6xl font-bold text-gray-100">LMAITFY</h2>
         <h1 class="text-xl text-gray-100">Let me AI that for you</h1>
       </header>
-      <CreateLink @get-position="(pos) => (inputPosition = pos)" />
+      <AnimateSearch v-if="query" />
+      <p v-else>No query</p>
       <footer>
         <p class="text-gray-500">
           Created by
@@ -27,14 +28,15 @@
       </footer>
     </div>
   </div>
-  <AButton @click="moveCursor">Test move</AButton>
-  <img ref="cursor" id="cursor" src="@/assets/cursor.svg" alt="" />
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import CreateLink from '@/components/CreateLink.vue'
-import AButton from '@/components/AButton.vue'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import AnimateSearch from '@/components/AnimateSearch.vue'
+
+const route = useRoute()
+const query = ref<string>(route.query.q as string)
 
 /* TODO: Add some head library
 useHead({
@@ -49,44 +51,4 @@ useHead({
 });
 */
 
-// animate the object to createlink ref slowly
-const cursor = ref<HTMLElement | null>(null)
-const inputPosition = ref<{ left: number; top: number }>({ left: 0, top: 0 })
-const canMoveCursor = ref<boolean>(false)
-
-const moveCursor = () => {
-  if (cursor.value && inputPosition.value) {
-    const { left, top } = cursor.value.getBoundingClientRect()
-    const x = inputPosition.value.left - left + 12
-    const y = inputPosition.value.top - top
-    cursor.value.animate(
-      [
-        { transform: 'translate(0, 0)' },
-        { transform: `translate(${x}px, ${y}px)` }
-      ],
-      {
-        duration: 3000,
-        iterations: 1,
-        direction: 'alternate',
-        easing: 'ease-in-out',
-        fill: 'forwards'
-      }
-    )
-  }
-}
-onMounted(() => {
-  if (cursor.value && inputPosition.value) {
-    canMoveCursor.value = true
-  }
-})
 </script>
-
-<style scoped>
-#cursor {
-  width: 35px;
-  height: 35px;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-</style>

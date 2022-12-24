@@ -6,6 +6,7 @@
       "@/*": ["./src/*"]
     }
   },
+  "lib": ["esnext.promise"],
   "references": [
     {
       "path": "./tsconfig.config.json"
