@@ -32,6 +32,7 @@
     "@types/node": "^18.11.17",
     "chatgpt": "^3.3.2",
     "lru-cache": "^7.14.1",
+    "puppeteer": "^19.4.1",
     "ramda": "^0.28.0"
   },
   "engines": {
